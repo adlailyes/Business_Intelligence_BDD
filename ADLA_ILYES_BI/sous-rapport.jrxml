@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sous-rapport" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eb5acc3f-8e1a-4145-a89c-faaa11e8040b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_product" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT g1 as Genre, ventes_par_genre as nb_vente, nb_client_par_genre as nb_client,
+ROUND(ventes_par_genre/nb_client_par_genre) as vente_par_client
+FROM
+(
+SELECT c.cust_gender as g1, count(*)*100 as ventes_par_genre
+FROM customers c, sales s
+WHERE c.cust_id=s.cust_id AND s.prod_id=$P{id_product}
+GROUP BY c.cust_gender
+ORDER BY ventes_par_genre DESC
+),(
+SELECT c.cust_gender as g2, COUNT(*) AS nb_client_par_genre
+FROM customers c
+GROUP BY c.cust_gender
+)
+WHERE g1=g2
+ORDER BY vente_par_client desc]]>
+	</queryString>
+	<field name="GENRE" class="java.lang.String"/>
+	<field name="NB_VENTE" class="java.math.BigDecimal"/>
+	<field name="NB_CLIENT" class="java.math.BigDecimal"/>
+	<field name="VENTE_PAR_CLIENT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="101" splitType="Stretch">
+			<pieChart>
+				<chart>
+					<reportElement x="194" y="1" width="200" height="100" uuid="dee9b2f7-a686-435b-889e-0006417d8e8d"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{GENRE}]]></keyExpression>
+					<valueExpression><![CDATA[$F{VENTE_PAR_CLIENT}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

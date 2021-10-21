@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sous_rapport2" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="037f972d-41cf-4c23-a1e7-6aa5111f6989">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_product" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT age1 as Age, vente_par_age as nb_vente, nb_clients_par_age as nb_clients,
+ROUND(vente_par_age/nb_clients_par_age) as vente_par_client
+FROM
+(
+SELECT TRUNC(to_char(sysdate,'YYYY') - c.cust_year_of_birth,-1) as age1, count(*)*100 as
+vente_par_age
+FROM customers c, sales s
+WHERE c.cust_id=s.cust_id AND s.prod_id=$P{id_product}
+GROUP BY TRUNC(to_char(sysdate,'YYYY') - c.cust_year_of_birth,-1)
+ORDER BY vente_par_age DESC
+),(
+SELECT TRUNC(to_char(sysdate,'YYYY') - cust_year_of_birth,-1) as age2, COUNT(*) AS
+nb_clients_par_age
+FROM customers
+GROUP BY TRUNC(to_char(sysdate,'YYYY') - cust_year_of_birth,-1)
+)
+WHERE age1=age2
+ORDER BY vente_par_client desc]]>
+	</queryString>
+	<field name="AGE" class="java.math.BigDecimal"/>
+	<field name="NB_VENTE" class="java.math.BigDecimal"/>
+	<field name="NB_CLIENTS" class="java.math.BigDecimal"/>
+	<field name="VENTE_PAR_CLIENT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="102" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement x="173" y="0" width="200" height="100" uuid="37f74a28-4342-4396-89cf-def37ffd0b4a"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Ventes par tranche d’age"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{AGE}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{VENTE_PAR_CLIENT}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

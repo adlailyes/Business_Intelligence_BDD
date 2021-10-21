@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rapport_principal" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9e327e4f-aac7-4cbf-b01a-e960194de56a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="a5020bd6-8490-4c75-a8e3-35c7d3fbac01"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\HP\\Desktop\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+FROM products
+WHERE ROWNUM<10]]>
+	</queryString>
+	<field name="PROD_ID" class="java.math.BigDecimal"/>
+	<field name="PROD_NAME" class="java.lang.String"/>
+	<field name="PROD_DESC" class="java.lang.String"/>
+	<field name="PROD_SUBCATEGORY" class="java.lang.String"/>
+	<field name="PROD_SUBCATEGORY_ID" class="java.math.BigDecimal"/>
+	<field name="PROD_SUBCATEGORY_DESC" class="java.lang.String"/>
+	<field name="PROD_CATEGORY" class="java.lang.String"/>
+	<field name="PROD_CATEGORY_ID" class="java.math.BigDecimal"/>
+	<field name="PROD_CATEGORY_DESC" class="java.lang.String"/>
+	<field name="PROD_WEIGHT_CLASS" class="java.math.BigDecimal"/>
+	<field name="PROD_UNIT_OF_MEASURE" class="java.lang.String"/>
+	<field name="PROD_PACK_SIZE" class="java.lang.String"/>
+	<field name="SUPPLIER_ID" class="java.math.BigDecimal"/>
+	<field name="PROD_STATUS" class="java.lang.String"/>
+	<field name="PROD_LIST_PRICE" class="java.math.BigDecimal"/>
+	<field name="PROD_MIN_PRICE" class="java.math.BigDecimal"/>
+	<field name="PROD_TOTAL" class="java.lang.String"/>
+	<field name="PROD_TOTAL_ID" class="java.math.BigDecimal"/>
+	<field name="PROD_SRC_ID" class="java.math.BigDecimal"/>
+	<field name="PROD_EFF_FROM" class="java.sql.Timestamp"/>
+	<field name="PROD_EFF_TO" class="java.sql.Timestamp"/>
+	<field name="PROD_VALID" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="237" y="0" width="100" height="33" forecolor="#FF3333" backcolor="#FFFF00" uuid="7e19d5f0-9f9f-441c-a3bb-9bb9fd1d7189"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Analyse des
+produits]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="13" width="181" height="20" uuid="5e0b09da-a661-4295-a7af-7044ae67bc85"/>
+				<textElement>
+					<font size="12" isBold="false" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ADLA ilyes chiheb eddineSIT1]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="175" splitType="Stretch">
+			<textField>
+				<reportElement x="102" y="21" width="103" height="24" uuid="17f03624-a9ba-4b78-9cfa-b5b0742b1338"/>
+				<textFieldExpression><![CDATA[$F{PROD_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="56" width="103" height="31" uuid="15b23d14-520c-4d3e-ae4a-58e897fd4324"/>
+				<textFieldExpression><![CDATA[$F{PROD_CATEGORY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="102" y="105" width="103" height="31" uuid="bd508175-57d2-4e8a-9064-10fc4a811224"/>
+				<textFieldExpression><![CDATA[$F{PROD_SUBCATEGORY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="102" y="143" width="101" height="28" uuid="7a88bcb6-d956-419d-8f1a-cee608861795"/>
+				<textFieldExpression><![CDATA[$F{PROD_LIST_PRICE}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="205" y="10" width="350" height="66" uuid="645fb3b5-252b-4ce1-a440-f4b5f31a11ac"/>
+				<subreportParameter name="id_product">
+					<subreportParameterExpression><![CDATA[$F{PROD_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "sous-rapport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="205" y="105" width="350" height="66" uuid="aba9e2c9-e386-40f1-93fd-e98e1ca162ad"/>
+				<subreportParameter name="id_product">
+					<subreportParameterExpression><![CDATA[$F{PROD_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "sous_rapport2.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="21" y="6" width="514" height="1" uuid="4a7c81c6-3c60-4faf-b42c-05e491e77608"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="21" width="100" height="20" forecolor="#CC00CC" uuid="cc6a2250-4167-4ff1-8e82-25b610535efc"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nom]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="56" width="100" height="20" forecolor="#CC00CC" uuid="5606cfe1-9484-4d79-bf6e-8fd548f7917d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Catégorie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="105" width="100" height="20" forecolor="#990099" uuid="1918e2fd-e9a6-468c-a7f5-e9549ac56ae3"/>
+				<textElement>
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Sous Catégorie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="143" width="100" height="20" forecolor="#990099" uuid="772ae722-c8a2-4648-a4bf-140fdebafb3e"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prix]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
